@@ -1,4 +1,5 @@
 import os
+import random
 import streamlit as st
 from sqlalchemy import create_engine, text
 from sentence_transformers import SentenceTransformer
@@ -70,14 +71,20 @@ def get_recommendations_by_name(name_query, top_k=5):
 # Hàm lấy ngẫu nhiên món ăn
 def get_random_recipes(top_k=5):
     with engine.connect() as conn:
+        # Lấy MAX(id) để biết giới hạn
+        max_id = conn.execute(text("SELECT MAX(id) FROM recipes")).scalar()
+
+        # Sinh ra ngẫu nhiên top_k id
+        random_ids = [random.randint(1, max_id) for _ in range(top_k)]
+
+        # Query theo id
         result = conn.execute(
             text("""
                 SELECT id, ten_mon, anh, video, url, nguyen_lieu, cach_lam, 1 AS similarity
                 FROM recipes
-                ORDER BY RANDOM()
-                LIMIT :top_k
+                WHERE id = ANY(:ids)
             """),
-            {"top_k": top_k}
+            {"ids": random_ids}
         )
         return result.fetchall()
 
@@ -107,12 +114,12 @@ col_input1, col_input2 = st.columns([1, 3])
 with col_input1:
     if search_mode == "Nguyên liệu":
         st.markdown(
-            "<p style='text-align:right; font-weight:bold;'>Nhập nguyên liệu bạn đang có:</p>",
+            "<p style='text-align:right; font-size:20px; font-weight:bold;'>Nhập nguyên liệu bạn đang có:</p>",
             unsafe_allow_html=True
         )
     else:
         st.markdown(
-            "<p style='text-align:right; font-weight:bold;'>Nhập tên món ăn bạn cần tìm:</p>",
+            "<p style='text-align:right; font-size:20px; font-weight:bold;'>Nhập tên món ăn bạn cần tìm:</p>",
             unsafe_allow_html=True
         )
 
