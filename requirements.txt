@@ -12,5 +12,5 @@ psycopg2-binary
 datasets
 accelerate
 transformers[torch]
-bcrypt
+bcrypt==4.1.0
 supabase
