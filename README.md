@@ -90,7 +90,7 @@ streamlit run app.py
 
 - Deploy và chạy app online 🎉.
 
-## 📜 About
+## 📜 Về chúng tôi
 - Giáo viên hướng dẫn: Nguyễn Quốc Anh
 - Sinh vin thực hiện:  Lâm Đạo Chương và Trần Thị Diễm Tâm
 

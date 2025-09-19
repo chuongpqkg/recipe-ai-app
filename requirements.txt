@@ -12,3 +12,9 @@ psycopg2-binary
 datasets
 accelerate
 transformers[torch]
+bcrypt
+supabase
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7b5cdd5 (Fix requirements.txt - remove conflict)
